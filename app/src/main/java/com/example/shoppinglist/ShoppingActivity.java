@@ -47,19 +47,28 @@ public class ShoppingActivity extends AppCompatActivity {
 
 
 
-    public void addToCart(View view){
+/*    public void addToCart(View view){
+        List<ShoppingListData> listItem = new ArrayList<>();
         DataManager dm = DataManager.getInstance();
-        int itemId = dm.items.get(itemPosition).getId();
+
+        view.get
+
+
+        ShoppingListData item = dm.items.get(itemPosition);
+        listItem.add(new ShoppingListData(item.getId(), item.getTitle(), item.getDescription()));
+
+
+        *//*int itemId = dm.items.get(itemPosition).getId();
         String itemTitle = dm.items.get(itemPosition).getTitle();
-        String itemDescription = dm.items.get(itemPosition).getDescription();
+        String itemDescription = dm.items.get(itemPosition).getDescription();*//*
 
         //Intent addItem = new Intent(ShoppingActivity.this, ShoppingListActivity.class);
-        List<ShoppingListData> listItem = new ArrayList<>();
-        listItem.add(new ShoppingListData(itemId, itemTitle, itemDescription));
+
+
         Toast toast = Toast.makeText(this, "Product Added to Cart", Toast.LENGTH_LONG);
         toast.show();
-        //listItem.clear();
-    }
+        listItem.clear();
+    }*/
 
 
     private void createNewItem(){
