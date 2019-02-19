@@ -18,6 +18,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingRecycl
     private final List<ShoppingListData> mItemList;
     private LayoutInflater mInflater;
     private Context context;
+    private int itemPosition;
 
 
     private ShoppingListListener shoppingListListener;
@@ -25,11 +26,13 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingRecycl
 
 
     public ShoppingRecyclerAdapter(Context context,
-                                   List<ShoppingListData> itemList) {
+                           List<ShoppingListData> itemList) {
         this.context = context;
         mInflater = LayoutInflater.from(context);
         this.mItemList = itemList; // Shopping Activity
         this.shoppingListListener = null;
+        this.itemPosition = 0;
+
     }
 
     public void setShoppingListListener(ShoppingListListener shoppingListListener){
@@ -99,6 +102,8 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingRecycl
                     }
                 }
             }
+
+                //listItem.clear();
         });
     }
 

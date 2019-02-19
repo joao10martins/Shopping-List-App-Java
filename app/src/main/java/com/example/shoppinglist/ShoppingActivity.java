@@ -37,7 +37,7 @@ public class ShoppingActivity extends AppCompatActivity {
         // Get a handle to the RecyclerView.
         mRecyclerView = findViewById(R.id.rvShop);
         // Create an adapter and supply the data to be displayed.
-        DataManager dm = DataManager.getInstance();
+        final DataManager dm = DataManager.getInstance();
         mAdapter = new ShoppingRecyclerAdapter(this, dm.items);
         // Connect the adapter with the RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
@@ -48,8 +48,8 @@ public class ShoppingActivity extends AppCompatActivity {
         mAdapter.setShoppingListListener(new ShoppingRecyclerAdapter.ShoppingListListener() {
             @Override
             public void onClickAddToCart(int position) {
+                final ShoppingListData currentItem = dm.items.get(position);
 
-                final ShoppingListData currentItem = mAdapter.getItemId(position);
                 cartItemList.add(new ShoppingListData(currentItem.getId(), currentItem.getTitle(), currentItem.getDescription()));
 
                 Toast toast = Toast.makeText(this, "Product Added to Cart "+position, Toast.LENGTH_LONG);
