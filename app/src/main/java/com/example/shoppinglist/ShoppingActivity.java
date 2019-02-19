@@ -23,6 +23,7 @@ public class ShoppingActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private ShoppingRecyclerAdapter mAdapter;
+    public List<ShoppingListData> cartItemList = new ArrayList<>();
 
 
     /* TODO: onCreate
@@ -43,31 +44,32 @@ public class ShoppingActivity extends AppCompatActivity {
         // Give the RecyclerView a default layout manager.
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        // Creating Shopping List(Cart)
+        mAdapter.setShoppingListListener(new ShoppingRecyclerAdapter.ShoppingListListener() {
+            @Override
+            public void onClickAddToCart(int position) {
+
+                final ShoppingListData currentItem = mAdapter.getItemId(position);
+                cartItemList.add(new ShoppingListData(currentItem.getId(), currentItem.getTitle(), currentItem.getDescription()));
+
+                Toast toast = Toast.makeText(this, "Product Added to Cart "+position, Toast.LENGTH_LONG);
+                toast.show();
+                System.out.println("List:");
+                for (int i=0; i<cartItemList.size(); i++){
+                    System.out.println(cartItemList.get(i).getTitle());
+                }
+            }
+        });
+
     }
 
 
 
-/*    public void addToCart(View view){
-        List<ShoppingListData> listItem = new ArrayList<>();
-        DataManager dm = DataManager.getInstance();
+   /* public void onClickAddToCart(View view, int position){
 
-        view.get
+        mAdapter.
 
 
-        ShoppingListData item = dm.items.get(itemPosition);
-        listItem.add(new ShoppingListData(item.getId(), item.getTitle(), item.getDescription()));
-
-
-        *//*int itemId = dm.items.get(itemPosition).getId();
-        String itemTitle = dm.items.get(itemPosition).getTitle();
-        String itemDescription = dm.items.get(itemPosition).getDescription();*//*
-
-        //Intent addItem = new Intent(ShoppingActivity.this, ShoppingListActivity.class);
-
-
-        Toast toast = Toast.makeText(this, "Product Added to Cart", Toast.LENGTH_LONG);
-        toast.show();
-        listItem.clear();
     }*/
 
 

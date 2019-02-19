@@ -20,24 +20,52 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingRecycl
     private Context context;
 
 
+    private ShoppingListListener shoppingListListener;
+    //public final List<ShoppingListData> cartItemList = new ArrayList<>(); // Nova lista para guardar os produtos adicionados à Lista
+
+
     public ShoppingRecyclerAdapter(Context context,
-                           List<ShoppingListData> itemList) {
+                                   List<ShoppingListData> itemList) {
         this.context = context;
         mInflater = LayoutInflater.from(context);
-        this.mItemList = itemList;
+        this.mItemList = itemList; // Shopping Activity
+        this.shoppingListListener = null;
+    }
+
+    public void setShoppingListListener(ShoppingListListener shoppingListListener){
+        this.shoppingListListener = shoppingListListener;
     }
 
 
     class ShoppingViewHolder extends RecyclerView.ViewHolder {
-        public final TextView txtItemView;
-        public final ImageButton btnAddToCart;
+        public final TextView txtItemView;  // Shopping Activity
+        public final TextView txtItemDescription;
+        public final ImageButton btnAddToCart;  // Shopping Activity
+        public int itemPosition;
+
         final ShoppingRecyclerAdapter mAdapter;
 
 
         public ShoppingViewHolder(View itemView, ShoppingRecyclerAdapter adapter) {
             super(itemView);
-            txtItemView = itemView.findViewById(R.id.txtItem);
-            btnAddToCart = itemView.findViewById(R.id.btnAddToCart);
+            txtItemView = itemView.findViewById(R.id.txtItem); // Shopping Activity
+            txtItemDescription = itemView.findViewById(R.id.txtNote);
+            itemPosition = 0;
+            btnAddToCart = itemView.findViewById(R.id.btnAddToCart); // Shopping Activity
+            /*btnAddToCart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int id = v.getId();
+
+                    if (id == R.id.btnAddToCart){
+                        if (shoppingListListener != null){
+                            shoppingListListener.onClickAddToCart();
+                        }
+                    }
+                }
+            });*/
+
+
             this.mAdapter = adapter;
         }
     }
@@ -52,21 +80,24 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingRecycl
 
     @Override
     public void onBindViewHolder(@NonNull ShoppingViewHolder holder, final int position) {
-        ShoppingListData currentItem = mItemList.get(position);
+
+        //final DataManager dm = DataManager.getInstance();
+        //final ShoppingListData item = dm.items.get(position);
+
+        final ShoppingListData currentItem = mItemList.get(position);
         holder.txtItemView.setText(currentItem.getTitle());
+        holder.txtItemDescription.setText(currentItem.getDescription());
+        //holder.itemPosition = position;
         holder.btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<ShoppingListData> listItem = new ArrayList<>();
-                DataManager dm = DataManager.getInstance();
+                int id = v.getId();
 
-
-                ShoppingListData item = dm.items.get(position);
-                listItem.add(new ShoppingListData(item.getId(), item.getTitle(), item.getDescription()));
-
-                Toast toast = Toast.makeText(context, "Product Added to Cart "+position, Toast.LENGTH_LONG);
-                toast.show();
-                listItem.clear();
+                if (id == R.id.btnAddToCart){
+                    if (shoppingListListener != null){
+                        shoppingListListener.onClickAddToCart(position);
+                    }
+                }
             }
         });
     }
@@ -77,26 +108,9 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingRecycl
     }
 
 
-   /* public void addToCart(View view){
-        List<ShoppingListData> listItem = new ArrayList<>();
-        DataManager dm = DataManager.getInstance();
-
-
-        ShoppingListData item = dm.items.get(itemPosition);
-        listItem.add(new ShoppingListData(item.getId(), item.getTitle(), item.getDescription()));
-
-
-        *//*int itemId = dm.items.get(itemPosition).getId();
-        String itemTitle = dm.items.get(itemPosition).getTitle();
-        String itemDescription = dm.items.get(itemPosition).getDescription();*//*
-
-        //Intent addItem = new Intent(ShoppingActivity.this, ShoppingListActivity.class);
-
-
-        Toast toast = Toast.makeText(this, "Product Added to Cart", Toast.LENGTH_LONG);
-        toast.show();
-        listItem.clear();
-    }*/
+    public interface ShoppingListListener {
+        void onClickAddToCart(int position);
+    }
 
 }
 
