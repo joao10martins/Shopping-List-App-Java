@@ -1,6 +1,7 @@
 package com.example.shoppinglist;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,13 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<com.example.shoppinglist.ShoppingListRecyclerAdapter.ShoppingListViewHolder> {
 
-        private final List<ShoppingListData> mCartItemList;
+        private final ArrayList<ShoppingListData> mCartItemList;
         private LayoutInflater mInflater;
         private Context context;
+
 
 
 
@@ -23,7 +27,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<com.exampl
 
 
         public ShoppingListRecyclerAdapter(Context context,
-                                       List<ShoppingListData> itemCartList) {
+                                           ArrayList<ShoppingListData> itemCartList) {
             this.context = context;
             mInflater = LayoutInflater.from(context);
             this.mCartItemList = itemCartList; // Shopping Activity

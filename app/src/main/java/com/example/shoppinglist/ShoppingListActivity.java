@@ -9,10 +9,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import java.util.ArrayList;
+
 public class ShoppingListActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private ShoppingListRecyclerAdapter mAdapter;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +28,8 @@ public class ShoppingListActivity extends AppCompatActivity {
         // Get a handle to the RecyclerView.
         mRecyclerView = findViewById(R.id.rvCartList);
         // Create an adapter and supply the data to be displayed.
-        DataManager dm = DataManager.getInstance();
-        mAdapter = new ShoppingListRecyclerAdapter(this, dm.items);
+        ArrayList<ShoppingListData> cartItemList = getIntent().getParcelableArrayListExtra("key");
+        mAdapter = new ShoppingListRecyclerAdapter(this, cartItemList);
         // Connect the adapter with the RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
         // Give the RecyclerView a default layout manager.

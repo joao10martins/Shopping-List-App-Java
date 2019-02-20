@@ -19,11 +19,11 @@ public class DataManager {
 
 
 
-    public List<ShoppingListData> items;
+    public ArrayList<ShoppingListData> items;
 
-    private List<ShoppingListData> initializeItems(){
+    private ArrayList<ShoppingListData> initializeItems(){
 
-        List<ShoppingListData> item = new ArrayList<>();
+        ArrayList<ShoppingListData> item = new ArrayList<>();
         /*ShoppingListData item = new ShoppingListData();
         item.setItem(0, "Pringles", "Source of Fat");*/
         item.add(new ShoppingListData(0, "Pringles", "Source of Fat"));

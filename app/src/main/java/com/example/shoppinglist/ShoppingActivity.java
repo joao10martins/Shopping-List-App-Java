@@ -1,6 +1,7 @@
 package com.example.shoppinglist;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,11 +24,10 @@ public class ShoppingActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private ShoppingRecyclerAdapter mAdapter;
-    public List<ShoppingListData> cartItemList = new ArrayList<>();
+    public ArrayList<ShoppingListData> cartItemList = new ArrayList<>();
 
 
-    /* TODO: onCreate
-    */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,20 +53,29 @@ public class ShoppingActivity extends AppCompatActivity {
 
                 cartItemList.add(new ShoppingListData(currentItem.getId(), currentItem.getTitle(), currentItem.getDescription()));
 
+                Toast toast = Toast.makeText(ShoppingActivity.this, "Product Added to Cart " + position, Toast.LENGTH_LONG);
+                toast.show();
+
                 // Notify the adapter, that the data has changed so it can
                 // update the RecyclerView to display the data.
                 mAdapter.notifyDataSetChanged();
 
 
-                Toast toast = Toast.makeText(ShoppingActivity.this, "Product Added to Cart "+position, Toast.LENGTH_LONG);
-                toast.show();
+                // Sending the updated List of items/products to another Activity/Class.
+                Bundle b = new Bundle();
+                //b.putStringArrayList("key", cartItemList);
+                //b.putParcelableArrayList("key", cartItemList);//putStringArray(key, new String[]{value1, value2});
+                Intent intent = new Intent(ShoppingActivity.this, ShoppingListRecyclerAdapter.class);
+                intent.putParcelableArrayListExtra("key", (ArrayList<ShoppingListData>) cartItemList);
+                startActivity(intent);
+
+
                 System.out.println("List:");
-                for (int i=0; i<cartItemList.size(); i++){
+                for (int i = 0; i < cartItemList.size(); i++) {
                     System.out.println(cartItemList.get(i).getTitle());
                 }
             }
         });
-
 
 
     }
@@ -81,29 +90,29 @@ public class ShoppingActivity extends AppCompatActivity {
     }*/
 
 
-    private void createNewItem(){
+    private void createNewItem() {
         DataManager dm = DataManager.getInstance();
         dm.items.add(new ShoppingListData());
-        itemPosition = dm.items.size()-1; //lastIndex
+        itemPosition = dm.items.size() - 1; //lastIndex
     }
 
 
     // Populating view with items
-    private void displayItem(){
+    private void displayItem() {
         DataManager dm = DataManager.getInstance();
-        if (itemPosition > dm.items.size()-1){
+        if (itemPosition > dm.items.size() - 1) {
             showMessage("Item not found");
-            Log.e(LOG_TAG, "Invalid item position" + itemPosition + ", max valid position " + (dm.items.size()-1));
+            Log.e(LOG_TAG, "Invalid item position" + itemPosition + ", max valid position " + (dm.items.size() - 1));
             return;
         }
 
         Log.i(LOG_TAG, "Displaying item for position" + itemPosition);
         ShoppingListData item = dm.items.get(itemPosition);
-        TextView txtItem = (TextView)findViewById(R.id.txtItem);
+        TextView txtItem = (TextView) findViewById(R.id.txtItem);
         txtItem.setText(item.getTitle());
     }
 
-    private void showMessage(String message){
+    private void showMessage(String message) {
         Snackbar snackbar = Snackbar.make(findViewById(R.id.txtItem), message, Snackbar.LENGTH_LONG);
         snackbar.show();
     }
