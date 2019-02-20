@@ -44,7 +44,8 @@ public class ShoppingActivity extends AppCompatActivity {
         // Give the RecyclerView a default layout manager.
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Creating Shopping List(Cart)
+        // Creating Shopping List(Cart) by adding each item onClick.
+        // Custom listener is used to retrieve the position of each item.
         mAdapter.setShoppingListListener(new ShoppingRecyclerAdapter.ShoppingListListener() {
             @Override
             public void onClickAddToCart(int position) {
@@ -52,7 +53,12 @@ public class ShoppingActivity extends AppCompatActivity {
 
                 cartItemList.add(new ShoppingListData(currentItem.getId(), currentItem.getTitle(), currentItem.getDescription()));
 
-                Toast toast = Toast.makeText(this, "Product Added to Cart "+position, Toast.LENGTH_LONG);
+                // Notify the adapter, that the data has changed so it can
+                // update the RecyclerView to display the data.
+                mAdapter.notifyDataSetChanged();
+
+
+                Toast toast = Toast.makeText(ShoppingActivity.this, "Product Added to Cart "+position, Toast.LENGTH_LONG);
                 toast.show();
                 System.out.println("List:");
                 for (int i=0; i<cartItemList.size(); i++){
@@ -60,6 +66,8 @@ public class ShoppingActivity extends AppCompatActivity {
                 }
             }
         });
+
+
 
     }
 

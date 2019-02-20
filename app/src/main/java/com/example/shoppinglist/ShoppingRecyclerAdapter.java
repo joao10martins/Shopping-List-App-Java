@@ -89,7 +89,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingRecycl
 
         final ShoppingListData currentItem = mItemList.get(position);
         holder.txtItemView.setText(currentItem.getTitle());
-        holder.txtItemDescription.setText(currentItem.getDescription());
+        //holder.txtItemDescription.setText(currentItem.getDescription());
         //holder.itemPosition = position;
         holder.btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
