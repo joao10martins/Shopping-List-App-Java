@@ -42,9 +42,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingRecycl
 
     class ShoppingViewHolder extends RecyclerView.ViewHolder {
         public final TextView txtItemView;  // Shopping Activity
-        public final TextView txtItemDescription;
         public final ImageButton btnAddToCart;  // Shopping Activity
-        public int itemPosition;
 
         final ShoppingRecyclerAdapter mAdapter;
 
@@ -52,23 +50,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingRecycl
         public ShoppingViewHolder(View itemView, ShoppingRecyclerAdapter adapter) {
             super(itemView);
             txtItemView = itemView.findViewById(R.id.txtItem); // Shopping Activity
-            txtItemDescription = itemView.findViewById(R.id.txtNote);
-            itemPosition = 0;
             btnAddToCart = itemView.findViewById(R.id.btnAddToCart); // Shopping Activity
-            /*btnAddToCart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int id = v.getId();
-
-                    if (id == R.id.btnAddToCart){
-                        if (shoppingListListener != null){
-                            shoppingListListener.onClickAddToCart();
-                        }
-                    }
-                }
-            });*/
-
-
             this.mAdapter = adapter;
         }
     }
@@ -84,13 +66,8 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingRecycl
     @Override
     public void onBindViewHolder(@NonNull ShoppingViewHolder holder, final int position) {
 
-        //final DataManager dm = DataManager.getInstance();
-        //final ShoppingListData item = dm.items.get(position);
-
         final ShoppingListData currentItem = mItemList.get(position);
         holder.txtItemView.setText(currentItem.getTitle());
-        //holder.txtItemDescription.setText(currentItem.getDescription());
-        //holder.itemPosition = position;
         holder.btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

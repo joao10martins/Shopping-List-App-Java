@@ -53,7 +53,7 @@ public class ShoppingActivity extends AppCompatActivity {
 
                 cartItemList.add(new ShoppingListData(currentItem.getId(), currentItem.getTitle(), currentItem.getDescription()));
 
-                Toast toast = Toast.makeText(ShoppingActivity.this, "Product Added to Cart " + position, Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(ShoppingActivity.this, "Product Added to Cart", Toast.LENGTH_LONG);
                 toast.show();
 
                 // Notify the adapter, that the data has changed so it can
@@ -61,21 +61,28 @@ public class ShoppingActivity extends AppCompatActivity {
                 mAdapter.notifyDataSetChanged();
 
 
-                // Sending the updated List of items/products to another Activity/Class.
-                Bundle b = new Bundle();
-                //b.putStringArrayList("key", cartItemList);
-                //b.putParcelableArrayList("key", cartItemList);//putStringArray(key, new String[]{value1, value2});
-                Intent intent = new Intent(ShoppingActivity.this, ShoppingListRecyclerAdapter.class);
-                intent.putParcelableArrayListExtra("key", (ArrayList<ShoppingListData>) cartItemList);
-                startActivity(intent);
-
-
                 System.out.println("List:");
                 for (int i = 0; i < cartItemList.size(); i++) {
                     System.out.println(cartItemList.get(i).getTitle());
                 }
+
+                // Sending the updated List of items/products to another Activity/Class.
+                //Bundle b = new Bundle();
+                //b.putStringArrayList("key", cartItemList);
+                //b.putParcelableArrayList("key", cartItemList);//putStringArray(key, new String[]{value1, value2});
+
+
+
+
+
             }
         });
+
+        Intent intent = new Intent(ShoppingActivity.this, ShoppingListActivity.class);
+        intent.putExtra("key", cartItemList);
+        startActivity(intent);
+
+
 
 
     }
@@ -90,11 +97,11 @@ public class ShoppingActivity extends AppCompatActivity {
     }*/
 
 
-    private void createNewItem() {
+    /*private void createNewItem() {
         DataManager dm = DataManager.getInstance();
         dm.items.add(new ShoppingListData());
         itemPosition = dm.items.size() - 1; //lastIndex
-    }
+    }*/
 
 
     // Populating view with items

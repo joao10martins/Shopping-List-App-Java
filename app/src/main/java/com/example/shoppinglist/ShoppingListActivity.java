@@ -28,12 +28,16 @@ public class ShoppingListActivity extends AppCompatActivity {
         // Get a handle to the RecyclerView.
         mRecyclerView = findViewById(R.id.rvCartList);
         // Create an adapter and supply the data to be displayed.
+
         ArrayList<ShoppingListData> cartItemList = getIntent().getParcelableArrayListExtra("key");
-        mAdapter = new ShoppingListRecyclerAdapter(this, cartItemList);
-        // Connect the adapter with the RecyclerView.
-        mRecyclerView.setAdapter(mAdapter);
-        // Give the RecyclerView a default layout manager.
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        if (cartItemList != null){
+            mAdapter = new ShoppingListRecyclerAdapter(this, cartItemList);
+            // Connect the adapter with the RecyclerView.
+            mRecyclerView.setAdapter(mAdapter);
+            // Give the RecyclerView a default layout manager.
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        }
+
 
 
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
