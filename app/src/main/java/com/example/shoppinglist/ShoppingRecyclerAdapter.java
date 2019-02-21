@@ -18,11 +18,9 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingRecycl
     private final ArrayList<ShoppingListData> mItemList;
     private LayoutInflater mInflater;
     private Context context;
-    private int itemPosition;
 
 
     private ShoppingListListener shoppingListListener;
-    //public final List<ShoppingListData> cartItemList = new ArrayList<>(); // Nova lista para guardar os produtos adicionados à Lista
 
 
     public ShoppingRecyclerAdapter(Context context,
@@ -31,9 +29,8 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingRecycl
         mInflater = LayoutInflater.from(context);
         this.mItemList = itemList; // Shopping Activity
         this.shoppingListListener = null;
-        this.itemPosition = 0;
-
     }
+
 
     public void setShoppingListListener(ShoppingListListener shoppingListListener){
         this.shoppingListListener = shoppingListListener;

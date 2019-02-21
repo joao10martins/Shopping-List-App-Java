@@ -45,8 +45,7 @@ public class ShoppingActivity extends AppCompatActivity {
         // Give the RecyclerView a default layout manager.
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        /*if (savedInstanceState != null)
-            cartItemList = savedInstanceState.getParcelableArrayList("savedList");*/
+
         // If there is already an existing list, pick it up to continue
         // adding items/products.
         existingCartItemList = getIntent().getParcelableArrayListExtra("test");
