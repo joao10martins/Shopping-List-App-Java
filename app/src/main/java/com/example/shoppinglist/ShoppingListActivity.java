@@ -17,7 +17,8 @@ public class ShoppingListActivity extends AppCompatActivity {
     private ShoppingListRecyclerAdapter mAdapter;
 
 
-
+    public ArrayList<ShoppingListData> cartItemList = new ArrayList<>();
+    public ArrayList<ShoppingListData> savedCartItemList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +29,9 @@ public class ShoppingListActivity extends AppCompatActivity {
 
         //if (savedInstanceState != null){
         // TODO
-        ArrayList<ShoppingListData> cartItemList = getIntent().getParcelableArrayListExtra("key");
+        cartItemList = getIntent().getParcelableArrayListExtra("savedList");
+        // Saving new list to a variable
+        savedCartItemList = cartItemList;
             if (cartItemList != null){
                 // Get a handle to the RecyclerView.
                 mRecyclerView = findViewById(R.id.rvCartList);
@@ -45,8 +48,15 @@ public class ShoppingListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent shop = new Intent(ShoppingListActivity.this, ShoppingActivity.class);
-                startActivity(shop);
+                if(savedCartItemList != null) {
+                    Intent shop = new Intent(ShoppingListActivity.this, ShoppingActivity.class);
+                    shop.putExtra("test", savedCartItemList);
+                    startActivity(shop);
+                }
+                else {
+                    Intent shop = new Intent(ShoppingListActivity.this, ShoppingActivity.class);
+                    startActivity(shop);
+                }
             }
         });
 
@@ -57,7 +67,7 @@ public class ShoppingListActivity extends AppCompatActivity {
     /*@Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList("key", cartItemList);
+        outState.putParcelableArrayList("savedList", cartItemList);
     }*/
 
 

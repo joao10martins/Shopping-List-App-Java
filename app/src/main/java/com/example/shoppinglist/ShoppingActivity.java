@@ -25,11 +25,12 @@ public class ShoppingActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private ShoppingRecyclerAdapter mAdapter;
     public ArrayList<ShoppingListData> cartItemList = new ArrayList<>();
+    public ArrayList<ShoppingListData> existingCartItemList = new ArrayList<>();
 
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping);
 
@@ -44,47 +45,82 @@ public class ShoppingActivity extends AppCompatActivity {
         // Give the RecyclerView a default layout manager.
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        /*if (savedInstanceState != null)
+            cartItemList = savedInstanceState.getParcelableArrayList("savedList");*/
+        // If there is already an existing list, pick it up to continue
+        // adding items/products.
+        existingCartItemList = getIntent().getParcelableArrayListExtra("test");
+
+
         // Creating Shopping List(Cart) by adding each item onClick.
         // Custom listener is used to retrieve the position of each item.
         mAdapter.setShoppingListListener(new ShoppingRecyclerAdapter.ShoppingListListener() {
             @Override
             public void onClickAddToCart(int position) {
                 final ShoppingListData currentItem = dm.items.get(position);
-
-                cartItemList.add(new ShoppingListData(currentItem.getId(), currentItem.getTitle(), currentItem.getDescription()));
-
-                Toast toast = Toast.makeText(ShoppingActivity.this, "Product Added to Cart", Toast.LENGTH_SHORT);
-                toast.show();
-
-                // Notify the adapter, that the data has changed so it can
-                // update the RecyclerView to display the data.
-                mAdapter.notifyDataSetChanged();
+                if (existingCartItemList != null){
+                    existingCartItemList.add(new ShoppingListData(currentItem.getId(), currentItem.getTitle(), currentItem.getDescription()));
 
 
-                System.out.println("List:");
-                for (int i = 0; i < cartItemList.size(); i++) {
-                    System.out.println(cartItemList.get(i).getTitle());
+                    Toast toast = Toast.makeText(ShoppingActivity.this, "Product Added to Cart", Toast.LENGTH_SHORT);
+                    toast.show();
+
+                    // Notify the adapter, that the data has changed so it can
+                    // update the RecyclerView to display the data.
+                    mAdapter.notifyDataSetChanged();
+
+
+                    System.out.println("List:");
+                    for (int i = 0; i < existingCartItemList.size(); i++) {
+                        System.out.println(existingCartItemList.get(i).getTitle());
+                    }
                 }
+                else {
+                    cartItemList.add(new ShoppingListData(currentItem.getId(), currentItem.getTitle(), currentItem.getDescription()));
 
 
+                    Toast toast = Toast.makeText(ShoppingActivity.this, "Product Added to Cart", Toast.LENGTH_SHORT);
+                    toast.show();
+
+                    // Notify the adapter, that the data has changed so it can
+                    // update the RecyclerView to display the data.
+                    mAdapter.notifyDataSetChanged();
+
+
+                    System.out.println("List:");
+                    for (int i = 0; i < cartItemList.size(); i++) {
+                        System.out.println(cartItemList.get(i).getTitle());
+                    }
+
+                }
             }
         });
 
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
+    /*@Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("savedList", cartItemList);
+    }*/
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        // Sending the updated List of items/products to another Activity/Class.
-        Intent intent = new Intent(ShoppingActivity.this, ShoppingListActivity.class);
-        intent.putExtra("key", cartItemList);
-        startActivity(intent);
+        if (existingCartItemList != null){
+            // Sending the updated List of items/products to another Activity/Class.
+            Intent intent = new Intent(ShoppingActivity.this, ShoppingListActivity.class);
+            intent.putExtra("savedList", existingCartItemList);
+            startActivity(intent);
+        }
+        else {
+            // Sending the updated List of items/products to another Activity/Class.
+            Intent intent = new Intent(ShoppingActivity.this, ShoppingListActivity.class);
+            intent.putExtra("savedList", cartItemList);
+            startActivity(intent);
+        }
+
     }
 
 
