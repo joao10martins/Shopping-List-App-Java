@@ -21,8 +21,12 @@ public class ShoppingListActivity extends AppCompatActivity {
     private SharedPreferences mPreferences;
 
 
-    public ArrayList<ShoppingListData> cartItemList = new ArrayList<>();
-    public ArrayList<ShoppingListData> savedCartItemList = new ArrayList<>();
+
+    public ArrayList<ShoppingListData> cartItemList = new ArrayList<ShoppingListData>();
+    public ArrayList<ShoppingListData> savedCartItemList = new ArrayList<ShoppingListData>();
+
+    // SharedPreferences Array for the current list of items.
+    public ArrayList<ShoppingListData> sharedPrefsList = new ArrayList<ShoppingListData>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +34,16 @@ public class ShoppingListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        // TODO
+        //TinyDB tinydb = new TinyDB(this);
+        TinyDB tinydb = new TinyDB(ShoppingListActivity.this);
+        sharedPrefsList = tinydb.getListObject("currentList");
+        if (sharedPrefsList != null)
+            cartItemList = sharedPrefsList;
         cartItemList = getIntent().getParcelableArrayListExtra("savedList");
         // Saving new list to a variable
         savedCartItemList = cartItemList;
         if (cartItemList != null) {
+            //tinydb.putListObject("currentList", cartItemList);
             // Get a handle to the RecyclerView.
             mRecyclerView = findViewById(R.id.rvCartList);
             // Create an adapter and supply the data to be displayed.
@@ -43,6 +52,7 @@ public class ShoppingListActivity extends AppCompatActivity {
             mRecyclerView.setAdapter(mAdapter);
             // Give the RecyclerView a default layout manager.
             mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         }
 
 
@@ -71,18 +81,20 @@ public class ShoppingListActivity extends AppCompatActivity {
         // We need an Editor object to make preference changes.
         // All objects are from android.context.Context
         //SharedPreferences mPreferences = getSharedPreferences(SHARED_PREFS_FILENAME, MODE_PRIVATE);
-        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
-        editor.put
+
+        // Put data in database
+        if (cartItemList != null){
+            TinyDB tinydb = new TinyDB(ShoppingListActivity.this);
+            tinydb.putListObject("currentList", cartItemList);
+        }
+
+
+
 
         // Commit the edits!
-        editor.commit();
+        //editor.commit();
     }
 
-    @Override
-    protected void onStop(){
-        super.onStop();
 
-
-    }
 
 }

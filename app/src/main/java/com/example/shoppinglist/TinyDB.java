@@ -36,6 +36,7 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
@@ -330,14 +331,14 @@ public class TinyDB {
     }
 
 
-    public ArrayList<Object> getListObject(String key, Class<?> mClass){
+    public ArrayList<ShoppingListData> getListObject(String key){
     	Gson gson = new Gson();
 
     	ArrayList<String> objStrings = getListString(key);
-    	ArrayList<Object> objects =  new ArrayList<Object>();
+    	ArrayList<ShoppingListData> objects =  new ArrayList<ShoppingListData>();
 
     	for(String jObjString : objStrings){
-    		Object value  = gson.fromJson(jObjString,  mClass);
+            ShoppingListData value  = gson.fromJson(jObjString, ShoppingListData.class);
     		objects.add(value);
     	}
     	return objects;
@@ -492,11 +493,11 @@ public class TinyDB {
     	putString(key, gson.toJson(obj));
     }
 
-    public void putListObject(String key, ArrayList<Object> objArray){
+    public void putListObject(String key, ArrayList<ShoppingListData> objArray){
     	checkForNullKey(key);
     	Gson gson = new Gson();
     	ArrayList<String> objStrings = new ArrayList<String>();
-    	for(Object obj : objArray){
+    	for(ShoppingListData obj : objArray){
     		objStrings.add(gson.toJson(obj));
     	}
     	putListString(key, objStrings);
