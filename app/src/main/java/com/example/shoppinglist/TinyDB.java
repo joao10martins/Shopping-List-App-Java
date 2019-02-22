@@ -335,7 +335,7 @@ public class TinyDB {
     	Gson gson = new Gson();
 
     	ArrayList<String> objStrings = getListString(key);
-    	ArrayList<ShoppingListData> objects =  new ArrayList<ShoppingListData>();
+    	ArrayList<ShoppingListData> objects =  new ArrayList<>();
 
     	for(String jObjString : objStrings){
             ShoppingListData value  = gson.fromJson(jObjString, ShoppingListData.class);

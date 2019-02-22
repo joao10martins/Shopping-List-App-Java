@@ -108,12 +108,19 @@ public class ShoppingActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         if (existingCartItemList != null){
+            // Put data in SharedPrefs database
+            TinyDB tinydb = new TinyDB(this);
+            tinydb.putListObject("currentList", existingCartItemList);
+
             // Sending the updated List of items/products to another Activity/Class.
             Intent intent = new Intent(ShoppingActivity.this, ShoppingListActivity.class);
             intent.putExtra("savedList", existingCartItemList);
             startActivity(intent);
         }
         else {
+            // Put data in SharedPrefs database
+            TinyDB tinydb = new TinyDB(this);
+            tinydb.putListObject("currentList", cartItemList);
             // Sending the updated List of items/products to another Activity/Class.
             Intent intent = new Intent(ShoppingActivity.this, ShoppingListActivity.class);
             intent.putExtra("savedList", cartItemList);

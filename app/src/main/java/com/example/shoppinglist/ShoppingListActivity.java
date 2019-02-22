@@ -18,15 +18,12 @@ public class ShoppingListActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private ShoppingListRecyclerAdapter mAdapter;
 
-    private SharedPreferences mPreferences;
-
-
 
     public ArrayList<ShoppingListData> cartItemList = new ArrayList<ShoppingListData>();
     public ArrayList<ShoppingListData> savedCartItemList = new ArrayList<ShoppingListData>();
-
-    // SharedPreferences Array for the current list of items.
     public ArrayList<ShoppingListData> sharedPrefsList = new ArrayList<ShoppingListData>();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +32,9 @@ public class ShoppingListActivity extends AppCompatActivity {
 
 
         //TinyDB tinydb = new TinyDB(this);
-        TinyDB tinydb = new TinyDB(ShoppingListActivity.this);
+        TinyDB tinydb = new TinyDB(this);
+        // SharedPreferences Array for the current list of items.
+
         sharedPrefsList = tinydb.getListObject("currentList");
         if (sharedPrefsList != null)
             cartItemList = sharedPrefsList;
@@ -73,28 +72,5 @@ public class ShoppingListActivity extends AppCompatActivity {
 
 
     }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        // We need an Editor object to make preference changes.
-        // All objects are from android.context.Context
-        //SharedPreferences mPreferences = getSharedPreferences(SHARED_PREFS_FILENAME, MODE_PRIVATE);
-
-        // Put data in database
-        if (cartItemList != null){
-            TinyDB tinydb = new TinyDB(ShoppingListActivity.this);
-            tinydb.putListObject("currentList", cartItemList);
-        }
-
-
-
-
-        // Commit the edits!
-        //editor.commit();
-    }
-
-
 
 }
