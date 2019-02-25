@@ -4,12 +4,12 @@ import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class ShoppingListRepository {
 
     private ShoppingListDao mShoppingListDao;
-    private LiveData<ArrayList<ShoppingListData>> mShoppingList;
+    private LiveData<List<ShoppingListData>> mShoppingList;
 
     ShoppingListRepository(Application application) {
         ShoppingListRoomDatabase db = ShoppingListRoomDatabase.getDatabase(application);
@@ -18,7 +18,7 @@ public class ShoppingListRepository {
     }
 
 
-    LiveData<ArrayList<ShoppingListData>> getShoppingList() {
+    LiveData<List<ShoppingListData>> getShoppingList() {
         return mShoppingList;
     }
 

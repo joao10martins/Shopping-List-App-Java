@@ -1,7 +1,11 @@
 package com.example.shoppinglist;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +15,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import static com.example.shoppinglist.Constants.SHARED_PREFS_FILENAME;
 
 public class ShoppingListActivity extends AppCompatActivity {
@@ -19,9 +25,10 @@ public class ShoppingListActivity extends AppCompatActivity {
     private ShoppingListRecyclerAdapter mAdapter;
 
 
-    public ArrayList<ShoppingListData> cartItemList = new ArrayList<ShoppingListData>();
-    public ArrayList<ShoppingListData> savedCartItemList = new ArrayList<ShoppingListData>();
-    public ArrayList<ShoppingListData> sharedPrefsList = new ArrayList<ShoppingListData>();
+    public List<ShoppingListData> cartItemList = new ArrayList<ShoppingListData>();
+    public List<ShoppingListData> savedCartItemList = new ArrayList<>();
+    public List<ShoppingListData> sharedPrefsList = new ArrayList<>();
+    private ShoppingListViewModel mShoppingListViewModel;
 
 
 
@@ -31,14 +38,19 @@ public class ShoppingListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+        mShoppingListViewModel = ViewModelProviders.of(this).get(ShoppingListViewModel.class);
+
+
         //TinyDB tinydb = new TinyDB(this);
-        TinyDB tinydb = new TinyDB(this);
+        //TinyDB tinydb = new TinyDB(this);
         // SharedPreferences Array for the current list of items.
 
-        sharedPrefsList = tinydb.getListObject("currentList");
-        if (sharedPrefsList != null)
-            cartItemList = sharedPrefsList;
-        cartItemList = getIntent().getParcelableArrayListExtra("savedList");
+        //sharedPrefsList = tinydb.getListObject("currentList");
+        //if (sharedPrefsList != null)
+            //cartItemList = sharedPrefsList;
+        //cartItemList = getIntent().getParcelableArrayListExtra("savedList");
+        DataManager dm = DataManager.getInstance();
+        cartItemList = dm.database;
         // Saving new list to a variable
         savedCartItemList = cartItemList;
         if (cartItemList != null) {
@@ -46,7 +58,17 @@ public class ShoppingListActivity extends AppCompatActivity {
             // Get a handle to the RecyclerView.
             mRecyclerView = findViewById(R.id.rvCartList);
             // Create an adapter and supply the data to be displayed.
-            mAdapter = new ShoppingListRecyclerAdapter(this, cartItemList);
+            if (mShoppingListViewModel != null){
+                mShoppingListViewModel.getShoppingList().observe(this, new Observer<List<ShoppingListData>>() {
+                    @Override
+                    public void onChanged(@Nullable final List<ShoppingListData> items) {
+                        // Update the cached copy of the words in the adapter.
+                        mAdapter.setItems(items);
+                    }
+                });
+            }
+            else
+                mAdapter = new ShoppingListRecyclerAdapter(this, cartItemList);
             // Connect the adapter with the RecyclerView.
             mRecyclerView.setAdapter(mAdapter);
             // Give the RecyclerView a default layout manager.
@@ -61,7 +83,7 @@ public class ShoppingListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (savedCartItemList != null) {
                     Intent shop = new Intent(ShoppingListActivity.this, ShoppingActivity.class);
-                    shop.putExtra("savedCartItemList", savedCartItemList);
+                    shop.putExtra("savedCartItemList", (Parcelable) savedCartItemList);
                     startActivity(shop);
                 } else {
                     Intent shop = new Intent(ShoppingListActivity.this, ShoppingActivity.class);

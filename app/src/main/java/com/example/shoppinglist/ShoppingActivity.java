@@ -109,22 +109,33 @@ public class ShoppingActivity extends AppCompatActivity {
         super.onBackPressed();
         if (existingCartItemList != null){
             // Put data in SharedPrefs database
-            TinyDB tinydb = new TinyDB(this);
-            tinydb.putListObject("currentList", existingCartItemList);
+            //TinyDB tinydb = new TinyDB(this);
+            //tinydb.putListObject("currentList", existingCartItemList);
+
+            // Sending the updated List of items/products in the database.
+            Intent save = new Intent(ShoppingActivity.this, DataManager.class);
+            save.putExtra("saveToDatabase", existingCartItemList);
+            startActivity(save);
 
             // Sending the updated List of items/products to another Activity/Class.
-            Intent intent = new Intent(ShoppingActivity.this, ShoppingListActivity.class);
+            /*Intent intent = new Intent(ShoppingActivity.this, ShoppingListActivity.class);
             intent.putExtra("savedList", existingCartItemList);
-            startActivity(intent);
+            startActivity(intent);*/
         }
         else {
             // Put data in SharedPrefs database
-            TinyDB tinydb = new TinyDB(this);
-            tinydb.putListObject("currentList", cartItemList);
+            //TinyDB tinydb = new TinyDB(this);
+            //tinydb.putListObject("currentList", cartItemList);
+
+            // Sending the updated List of items/products in the database.
+            Intent save = new Intent(ShoppingActivity.this, DataManager.class);
+            save.putExtra("saveToDatabase", cartItemList);
+            startActivity(save);
+
             // Sending the updated List of items/products to another Activity/Class.
-            Intent intent = new Intent(ShoppingActivity.this, ShoppingListActivity.class);
+            /*Intent intent = new Intent(ShoppingActivity.this, ShoppingListActivity.class);
             intent.putExtra("savedList", cartItemList);
-            startActivity(intent);
+            startActivity(intent);*/
         }
 
     }

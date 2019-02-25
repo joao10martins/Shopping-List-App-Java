@@ -15,7 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingRecyclerAdapter.ShoppingViewHolder> {
-    private final ArrayList<ShoppingListData> mItemList;
+    private final List<ShoppingListData> mItemList;
     private LayoutInflater mInflater;
     private Context context;
 
@@ -24,7 +24,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingRecycl
 
 
     public ShoppingRecyclerAdapter(Context context,
-                                   ArrayList<ShoppingListData> itemList) {
+                                   List<ShoppingListData> itemList) {
         this.context = context;
         mInflater = LayoutInflater.from(context);
         this.mItemList = itemList; // Shopping Activity

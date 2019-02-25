@@ -3,7 +3,10 @@ package com.example.shoppinglist;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataManager {
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+
+public class DataManager extends AppCompatActivity {
     private static DataManager ourInstance;
 
     public static DataManager getInstance() {
@@ -15,17 +18,17 @@ public class DataManager {
 
     private DataManager() {
        items = initializeItems();
-       test = initializeTest();
+       database = initializeDatabase();
     }
 
 
 
-    public ArrayList<ShoppingListData> items;
-    public ArrayList<String> test;
+    public List<ShoppingListData> items;
+    public List<ShoppingListData> database;
 
-    private ArrayList<ShoppingListData> initializeItems(){
+    private List<ShoppingListData> initializeItems(){
 
-        ArrayList<ShoppingListData> item = new ArrayList<>();
+        List<ShoppingListData> item = new ArrayList<>();
         /*ShoppingListData item = new ShoppingListData();
         item.setItem(0, "Pringles", "Source of Fat");*/
         item.add(new ShoppingListData(0, "Pringles", "Source of Fat"));
@@ -60,12 +63,13 @@ public class DataManager {
         return item;
     }
 
-    private ArrayList<String> initializeTest(){
-        ArrayList<String> testItem = new ArrayList<>();
+    private List<ShoppingListData> initializeDatabase(){
 
-        testItem.add(0, "test 1");
-        testItem.add(1, "test 2");
+        List<ShoppingListData> databaseList = new ArrayList<>();
 
-        return testItem;
+        databaseList = getIntent().getParcelableArrayListExtra("saveToDatabase");
+
+        return databaseList;
     }
+
 }
