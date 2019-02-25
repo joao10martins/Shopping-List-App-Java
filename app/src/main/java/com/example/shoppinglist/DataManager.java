@@ -15,11 +15,13 @@ public class DataManager {
 
     private DataManager() {
        items = initializeItems();
+       test = initializeTest();
     }
 
 
 
     public ArrayList<ShoppingListData> items;
+    public ArrayList<String> test;
 
     private ArrayList<ShoppingListData> initializeItems(){
 
@@ -56,5 +58,14 @@ public class DataManager {
 
 
         return item;
+    }
+
+    private ArrayList<String> initializeTest(){
+        ArrayList<String> testItem = new ArrayList<>();
+
+        testItem.add(0, "test 1");
+        testItem.add(1, "test 2");
+
+        return testItem;
     }
 }

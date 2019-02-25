@@ -48,7 +48,7 @@ public class ShoppingActivity extends AppCompatActivity {
 
         // If there is already an existing list, pick it up to continue
         // adding items/products.
-        existingCartItemList = getIntent().getParcelableArrayListExtra("test");
+        existingCartItemList = getIntent().getParcelableArrayListExtra("savedCartItemList");
 
 
         // Creating Shopping List(Cart) by adding each item onClick.

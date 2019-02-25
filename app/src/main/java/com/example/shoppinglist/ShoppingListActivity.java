@@ -61,7 +61,7 @@ public class ShoppingListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (savedCartItemList != null) {
                     Intent shop = new Intent(ShoppingListActivity.this, ShoppingActivity.class);
-                    shop.putExtra("test", savedCartItemList);
+                    shop.putExtra("savedCartItemList", savedCartItemList);
                     startActivity(shop);
                 } else {
                     Intent shop = new Intent(ShoppingListActivity.this, ShoppingActivity.class);

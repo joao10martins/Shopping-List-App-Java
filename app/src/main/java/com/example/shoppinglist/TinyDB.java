@@ -297,7 +297,7 @@ public class TinyDB {
      * @return ArrayList of String
      */
     public ArrayList<String> getListString(String key) {
-        return new ArrayList<String>(Arrays.asList(TextUtils.split(preferences.getString(key, ""), "‚‗‚")));
+        return new ArrayList<>(Arrays.asList(TextUtils.split(preferences.getString(key, ""), "‚‗‚")));
     }
 
     /**
@@ -438,7 +438,7 @@ public class TinyDB {
      */
     public void putString(String key, String value) {
         checkForNullKey(key); checkForNullValue(value);
-        preferences.edit().putString(key, value).apply();
+        preferences.edit().putString(key, value).commit();
     }
 
     /**
@@ -449,7 +449,7 @@ public class TinyDB {
     public void putListString(String key, ArrayList<String> stringList) {
         checkForNullKey(key);
         String[] myStringList = stringList.toArray(new String[stringList.size()]);
-        preferences.edit().putString(key, TextUtils.join("‚‗‚", myStringList)).apply();
+        preferences.edit().putString(key, TextUtils.join("‚‗‚", myStringList)).commit();
     }
 
     /**
@@ -496,7 +496,7 @@ public class TinyDB {
     public void putListObject(String key, ArrayList<ShoppingListData> objArray){
     	checkForNullKey(key);
     	Gson gson = new Gson();
-    	ArrayList<String> objStrings = new ArrayList<String>();
+    	ArrayList<String> objStrings = new ArrayList<>();
     	for(ShoppingListData obj : objArray){
     		objStrings.add(gson.toJson(obj));
     	}
