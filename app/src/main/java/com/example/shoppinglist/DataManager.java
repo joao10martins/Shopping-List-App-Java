@@ -18,7 +18,8 @@ public class DataManager extends AppCompatActivity {
 
     private DataManager() {
        items = initializeItems();
-       database = initializeDatabase();
+       /*if (initializeDatabase() != null)
+           database = initializeDatabase();*/
     }
 
 
@@ -63,13 +64,15 @@ public class DataManager extends AppCompatActivity {
         return item;
     }
 
-    private List<ShoppingListData> initializeDatabase(){
+    /*private ArrayList<ShoppingListData> initializeDatabase(){
 
-        List<ShoppingListData> databaseList = new ArrayList<>();
+        ArrayList<ShoppingListData> databaseList = new ArrayList<>();
 
-        databaseList = getIntent().getParcelableArrayListExtra("saveToDatabase");
-
-        return databaseList;
-    }
+        if (getIntent().getParcelableArrayListExtra("saveToDatabase") != null)
+            databaseList = getIntent().getParcelableArrayListExtra("saveToDatabase");
+        if (databaseList != null)
+            return databaseList;
+        return null;
+    }*/
 
 }

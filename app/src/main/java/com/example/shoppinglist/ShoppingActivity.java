@@ -1,5 +1,6 @@
 package com.example.shoppinglist;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.support.design.widget.Snackbar;
@@ -24,9 +25,10 @@ public class ShoppingActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private ShoppingRecyclerAdapter mAdapter;
-    public ArrayList<ShoppingListData> cartItemList = new ArrayList<>();
-    public ArrayList<ShoppingListData> existingCartItemList = new ArrayList<>();
+    public List<ShoppingListData> cartItemList = new ArrayList<>();
+    public List<ShoppingListData> existingCartItemList = new ArrayList<>();
 
+    private ShoppingListViewModel mShoppingListViewModel;
 
 
     @Override
@@ -34,7 +36,7 @@ public class ShoppingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping);
 
-
+        mShoppingListViewModel = ViewModelProviders.of(this).get(ShoppingListViewModel.class);
         // Get a handle to the RecyclerView.
         mRecyclerView = findViewById(R.id.rvShop);
         // Create an adapter and supply the data to be displayed.
@@ -66,6 +68,8 @@ public class ShoppingActivity extends AppCompatActivity {
 
                     // Notify the adapter, that the data has changed so it can
                     // update the RecyclerView to display the data.
+                    //mShoppingListViewModel.insert(existingCartItemList);
+                    mShoppingListViewModel.insert(currentItem);
                     mAdapter.notifyDataSetChanged();
 
 
@@ -83,6 +87,7 @@ public class ShoppingActivity extends AppCompatActivity {
 
                     // Notify the adapter, that the data has changed so it can
                     // update the RecyclerView to display the data.
+                    mShoppingListViewModel.insert(currentItem);
                     mAdapter.notifyDataSetChanged();
 
 
@@ -113,8 +118,8 @@ public class ShoppingActivity extends AppCompatActivity {
             //tinydb.putListObject("currentList", existingCartItemList);
 
             // Sending the updated List of items/products in the database.
-            Intent save = new Intent(ShoppingActivity.this, DataManager.class);
-            save.putExtra("saveToDatabase", existingCartItemList);
+            Intent save = new Intent(ShoppingActivity.this, ShoppingListActivity.class);
+            save.putExtra("savedList", (Parcelable) existingCartItemList);
             startActivity(save);
 
             // Sending the updated List of items/products to another Activity/Class.
@@ -128,8 +133,8 @@ public class ShoppingActivity extends AppCompatActivity {
             //tinydb.putListObject("currentList", cartItemList);
 
             // Sending the updated List of items/products in the database.
-            Intent save = new Intent(ShoppingActivity.this, DataManager.class);
-            save.putExtra("saveToDatabase", cartItemList);
+            Intent save = new Intent(ShoppingActivity.this, ShoppingListActivity.class);
+            save.putExtra("savedList", (Parcelable) cartItemList);
             startActivity(save);
 
             // Sending the updated List of items/products to another Activity/Class.
@@ -167,7 +172,7 @@ public class ShoppingActivity extends AppCompatActivity {
 
         Log.i(LOG_TAG, "Displaying item for position" + itemPosition);
         ShoppingListData item = dm.items.get(itemPosition);
-        TextView txtItem = (TextView) findViewById(R.id.txtItem);
+        TextView txtItem = findViewById(R.id.txtItem);
         txtItem.setText(item.getTitle());
     }
 

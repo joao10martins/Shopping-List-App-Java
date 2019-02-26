@@ -1,5 +1,6 @@
 package com.example.shoppinglist;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
@@ -10,6 +11,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 @Database(entities = {ShoppingListData.class}, version = 1, exportSchema = false)
@@ -61,6 +63,7 @@ public abstract class ShoppingListRoomDatabase extends RoomDatabase {
         private final ShoppingListDao mDao;
 
         DataManager dm = DataManager.getInstance();
+
         //String[] words = {"dolphin", "crocodile", "cobra"};
 
         PopulateDbAsync(ShoppingListRoomDatabase db) {
@@ -74,11 +77,12 @@ public abstract class ShoppingListRoomDatabase extends RoomDatabase {
             // when it is first created
             //mDao.deleteAll();
 
-            for (int i = 0; i <= dm.database.size() - 1; i++) {
+            LiveData<List<ShoppingListData>> shoppingList = mDao.getShoppingList();
+            for (int i = 0; i <= shoppingList.getValue().size() - 1 ; i++) {
                 ShoppingListData item = new ShoppingListData(
-                        dm.database.get(i).getId(),
-                        dm.database.get(i).getTitle(),
-                        dm.database.get(i).getDescription()
+                        shoppingList.getValue().get(i).getId(),
+                        shoppingList.getValue().get(i).getTitle(),
+                        shoppingList.getValue().get(i).getDescription()
                                         );
                 mDao.insert(item);
             }

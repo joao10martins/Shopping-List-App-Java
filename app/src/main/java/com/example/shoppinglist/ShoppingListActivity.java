@@ -48,11 +48,16 @@ public class ShoppingListActivity extends AppCompatActivity {
         //sharedPrefsList = tinydb.getListObject("currentList");
         //if (sharedPrefsList != null)
             //cartItemList = sharedPrefsList;
-        //cartItemList = getIntent().getParcelableArrayListExtra("savedList");
-        DataManager dm = DataManager.getInstance();
-        cartItemList = dm.database;
+        cartItemList = getIntent().getParcelableArrayListExtra("savedList");
+
+        //DataManager dm = DataManager.getInstance();
+        //if (dm.database != null)
+            //cartItemList = dm.database;
+
         // Saving new list to a variable
         savedCartItemList = cartItemList;
+        if (savedCartItemList != null)
+            writeToDatabase(savedCartItemList);
         if (cartItemList != null) {
             //tinydb.putListObject("currentList", cartItemList);
             // Get a handle to the RecyclerView.
@@ -93,6 +98,12 @@ public class ShoppingListActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    public void writeToDatabase(List<ShoppingListData> savedCartItemList){
+            Intent saveToDB = new Intent(ShoppingListActivity.this, DataManager.class);
+            saveToDB.putExtra("saveToDatabase", (Parcelable) savedCartItemList);
+            startActivity(saveToDB);
     }
 
 }

@@ -91,6 +91,15 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingRecycl
         void onClickAddToCart(int position);
     }
 
+
+
+    /*void setItems(List<ShoppingListData> items){
+        if (items != null){
+            mCartItemList = items;
+            notifyDataSetChanged();
+        }
+    }*/
+
 }
 
 

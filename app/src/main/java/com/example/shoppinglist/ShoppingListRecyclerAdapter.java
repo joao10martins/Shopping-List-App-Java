@@ -73,6 +73,8 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
         return mCartItemList.size();
     }
 
+
+
     void setItems(List<ShoppingListData> items){
         if (items != null){
             mCartItemList = items;
