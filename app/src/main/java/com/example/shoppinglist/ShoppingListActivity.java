@@ -27,7 +27,7 @@ public class ShoppingListActivity extends AppCompatActivity {
 
     public List<ShoppingListData> cartItemList = new ArrayList<ShoppingListData>();
     public List<ShoppingListData> savedCartItemList = new ArrayList<>();
-    public List<ShoppingListData> sharedPrefsList = new ArrayList<>();
+    //public List<ShoppingListData> sharedPrefsList = new ArrayList<>();
     private ShoppingListViewModel mShoppingListViewModel;
 
 
